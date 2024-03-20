@@ -12,8 +12,8 @@ const validateUser = async () => {
       <p onclick='showData(2)'><i class="bi bi-file-earmark-post-fill"></i></i> My Posts</p>
       <p onclick='showData(3)'><i class="bi bi-journal-album"></i> My Albums</p>
       <p onclick='showData(4)'><i class="bi bi-person"></i> My Profile</p>
-      <p onclick='showData(5)'><i class="bi bi-door-open"></i>Todos</p>
-      <p onclick='showData(5)'><i class="bi bi-door-open"></i> Logout</p>
+      <p onclick='showData(5)'><i class="bi bi-person"></i> My todos</p>
+      <p onclick='showData(6)'><i class="bi bi-door-open"></i> Logout</p>
       `;
   divMenu.innerHTML = str;
   container.append(divMenu);
@@ -28,13 +28,11 @@ const showData = async (pageId) => {
     divContent.innerHTML = await getPosts();
   } else if (pageId === 3) {
     divContent.innerHTML = await getAlbums();
-  } else if (pageId === 4) {
+} else if (pageId === 4) {
     divContent.innerHTML = await getProfile();
+} else if (pageId === 5) {
+    divContent.innerHTML = await getTodos();
   } else if (pageId === 6) {
-        divContent.innerHTML = await getTodos();
-
-
-  } else if (pageId === 5) {
     location.reload();
   }
 };
@@ -111,6 +109,27 @@ const getProfile = async () => {
   return str;
 };
 
+const getMyToDos = async () => {
+    const url = `https://jsonplaceholder.typicode.com/todos/?userId=${userId}`;
+    const json = await fetchData(url);
+   
+   let str = "<div><h2>My ToDos</h2>";
+    str = `<p>${element.title}</p>
+        if(element.completed==true)
+        {
+
+          <p><input type="checkbox" checked>${element.title}</p><hr>
+        }
+        else{
+            <p><input type="checkbox">${element.title}</p><hr>
+        }
+    });   
+   `;
+    str += "</div";
+    return str;
+  };
+  
+
 const getName = async (id) => {
   const url = `https://jsonplaceholder.typicode.com/users/${userId}`;
   const json = await fetchData(url);
@@ -129,21 +148,6 @@ const getComments = async (postId) => {
   str += "</div";
   divContent.innerHTML = str;
 };
-
-
-const getTodos= async (postId) => {
-    const url = `https://jsonplaceholder.typicode.com/todos/?postId=${postId}`;
-    const json = await fetchData(url);
-    let str = `<div><h2>View Comments on Post Id: ${postId}</h2>`;
-    json.map((element) => {
-      str += `<p><b>${element.email}:</b>
-      ${element.body}</b>
-      <hr>`;
-    });
-    str += "</div";
-    divContent.innerHTML = str;
-  };
-
 
 const fetchData = async (url) => {
   const response = await fetch(url);

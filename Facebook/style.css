@@ -3,7 +3,7 @@ body {
 }
 .banner {
     display: flex;
-    background-color: rgb(163, 6, 230);
+    background-color: rgb(25, 25, 231);
     padding: 10px;
     color: aliceblue;
 }
